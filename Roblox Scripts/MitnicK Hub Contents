@@ -1,0 +1,12 @@
+local MitnicKSource = loadstring(game:HttpGet("https://raw.githubusercontent.com/KevinMitnickHKR/HKR/refs/heads/main/Roblox%20Scripts/MitnicK%20Hub%20Source"))()
+
+local m = MitnicKSource.MitnicKHub
+local gAdd = m.gAdd
+
+gAdd("Free", {
+    gPlaceId = 11157166793,
+    gCredits = {"KevinMitnickHKR"},
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/KevinMitnickHKR/HKR/refs/heads/main/Roblox%20Scripts/Free/Ant%20War"))()
+    end
+})
