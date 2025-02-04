@@ -174,3 +174,4 @@ local function gAdd(gTab, config)
 end
 
 return MitnicKHub
+return gAdd
