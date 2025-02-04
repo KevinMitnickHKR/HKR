@@ -1,0 +1,176 @@
+local MitnicKHub = Instance.new("ScreenGui", game.CoreGui)
+MitnicKHub.IgnoreGuiInset = true
+
+local MainFrame = Instance.new("Frame", MitnicKHub)
+MainFrame.Size = UDim2.new(0, 600, 0, 400)
+MainFrame.Position = UDim2.new(0.5, -300, 0.5, -200)
+MainFrame.BackgroundColor3 = Color3.fromRGB(28, 28, 28)
+MainFrame.ClipsDescendants = true
+
+local UICorner = Instance.new("UICorner", MainFrame)
+UICorner.CornerRadius = UDim.new(0, 10)
+
+local TopBar = Instance.new("Frame", MainFrame)
+TopBar.Size = UDim2.new(1, 0, 0, 35)
+TopBar.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+
+local TopUICorner = Instance.new("UICorner", TopBar)
+TopUICorner.CornerRadius = UDim.new(0, 10)
+
+local Title = Instance.new("TextLabel", TopBar)
+Title.Size = UDim2.new(0.3, 0, 1, 0)
+Title.Position = UDim2.new(0, 10, 0, 0)
+Title.BackgroundTransparency = 1
+Title.Text = "MitnicK Hub"
+Title.Font = Enum.Font.GothamBold
+Title.TextColor3 = Color3.new(1, 1, 1)
+Title.TextScaled = true
+
+local CloseButton = Instance.new("TextButton", TopBar)
+CloseButton.Size = UDim2.new(0, 35, 1, 0)
+CloseButton.Position = UDim2.new(1, -40, 0, 0)
+CloseButton.BackgroundTransparency = 1
+CloseButton.Text = "X"
+CloseButton.Font = Enum.Font.GothamBold
+CloseButton.TextColor3 = Color3.new(1, 1, 1)
+CloseButton.TextScaled = true
+CloseButton.MouseButton1Click:Connect(function()
+    MitnicKHub:Destroy()
+end)
+
+local SearchBox = Instance.new("TextBox", TopBar)
+SearchBox.Size = UDim2.new(0.4, 0, 0.6, 0)
+SearchBox.Position = UDim2.new(0.3, 10, 0.2, 0)
+SearchBox.PlaceholderText = "Search Games"
+SearchBox.Font = Enum.Font.Gotham
+SearchBox.TextColor3 = Color3.new(1, 1, 1)
+SearchBox.TextScaled = true
+SearchBox.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+SearchBox.ClearTextOnFocus = true
+SearchBox.Text = ""
+SearchBox.BorderSizePixel = 0
+
+local TabContainer = Instance.new("Frame", MainFrame)
+TabContainer.Size = UDim2.new(1, 0, 0, 35)
+TabContainer.Position = UDim2.new(0, 0, 0, 35)
+TabContainer.BorderSizePixel = 0
+TabContainer.BackgroundColor3 = Color3.fromRGB(28, 28, 28)
+
+local ScrollingFrame = Instance.new("ScrollingFrame", MainFrame)
+ScrollingFrame.Size = UDim2.new(1, -20, 1, -100)
+ScrollingFrame.Position = UDim2.new(0, 38.5, 0, 90)
+ScrollingFrame.BackgroundTransparency = 1
+ScrollingFrame.ScrollBarImageColor3 = Color3.fromRGB(45, 45, 45)
+ScrollingFrame.ScrollingDirection = Enum.ScrollingDirection.Y
+ScrollingFrame.ElasticBehavior = Enum.ElasticBehavior.Never
+ScrollingFrame.ScrollBarThickness = 0
+ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
+
+local UIListLayout = Instance.new("UIListLayout", ScrollingFrame)
+UIListLayout.Padding = UDim.new(0, 15)
+
+local TabNames = {"Free", "Premium", "Universal"}
+local Tabs = {}
+local SelectedTab = "Free"
+local TabGames = {Free = {}, Premium = {}, Universal = {}}
+
+for i, name in ipairs(TabNames) do
+    local Tab = Instance.new("TextButton", TabContainer)
+    Tab.Size = UDim2.new(1 / #TabNames, -1, 1, -1)
+    Tab.Position = UDim2.new((i - 1) / #TabNames, (i - 1) * 5, 0, 0)
+    Tab.BorderSizePixel = 0
+    Tab.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+    Tab.Text = name
+    Tab.Font = Enum.Font.GothamBold
+    Tab.TextColor3 = Color3.new(1, 1, 1)
+    Tab.TextScaled = true
+
+    Tabs[name] = Tab
+
+    Tab.MouseButton1Click:Connect(function()
+        SelectedTab = name
+        for _, game in pairs(ScrollingFrame:GetChildren()) do
+            if game:IsA("Frame") then
+                game.Visible = false
+            end
+        end
+        for _, gameObj in pairs(TabGames[name]) do
+            gameObj.Frame.Visible = true
+        end
+    end)
+end
+
+local function adjustScroll()
+    ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, #ScrollingFrame:GetChildren() * 150)
+end
+
+local function gAdd(gTab, config)
+    local GameBox = Instance.new("Frame", ScrollingFrame)
+    GameBox.Size = UDim2.new(0.9, 0, 0, 150)
+    GameBox.Position = UDim2.new(0, 50, 0, 0)
+    GameBox.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+
+    local GameUICorner = Instance.new("UICorner", GameBox)
+    GameUICorner.CornerRadius = UDim.new(0, 10)
+
+    local Image = Instance.new("ImageLabel", GameBox)
+    Image.Size = UDim2.new(0, 80, 0, 80)
+    Image.Position = UDim2.new(0.5, -40, 0, 8)
+    Image.BackgroundColor3 = Color3.new(0, 0, 0)
+    Image.BorderSizePixel = 3
+
+    local ImagUICorner = Instance.new("UICorner", Image)
+    ImagUICorner.CornerRadius = UDim.new(0, 10)
+
+    local ImageUIStroke = Instance.new("UIStroke")
+    ImageUIStroke.Thickness = 5
+    ImageUIStroke.Color = Color3.fromRGB(28, 28, 28)
+    ImageUIStroke.Transparency = 0
+    ImageUIStroke.Parent = Image
+
+    local success, data = pcall(function()
+        return MarketplaceService:GetProductInfo(config.gPlaceId)
+    end)
+    if success and data then
+        Image.Image = "rbxassetid://" .. data.IconImageAssetId
+    else
+        Image.Image = "rbxassetid://12230941577"
+    end
+
+    local GameName = success and data.Name or "Unknown"
+    local NameLabel = Instance.new("TextLabel", GameBox)
+    NameLabel.Size = UDim2.new(0.8, 0, 0, 20)
+    NameLabel.Position = UDim2.new(0.5, 0.5, 0, 91)
+    NameLabel.AnchorPoint = Vector2.new(0.5, 0)
+    NameLabel.BackgroundTransparency = 1
+    NameLabel.Text = GameName
+    NameLabel.Font = Enum.Font.GothamBold
+    NameLabel.TextColor3 = Color3.new(1, 1, 1)
+    NameLabel.TextScaled = true
+
+    local LoadButton = Instance.new("TextButton", GameBox)
+    LoadButton.Size = UDim2.new(0.5, 0, 0, 30)
+    LoadButton.Position = UDim2.new(0.5, 0.5, 0, 113)
+    LoadButton.AnchorPoint = Vector2.new(0.5, 0)
+    LoadButton.BackgroundColor3 = Color3.fromRGB(0, 100, 0)
+    LoadButton.BorderSizePixel = 3
+    LoadButton.BorderColor3 = Color3.fromRGB(0, 80, 0)
+    LoadButton.Text = "Load"
+    LoadButton.Font = Enum.Font.GothamBold
+    LoadButton.TextColor3 = Color3.new(1, 1, 1)
+    LoadButton.TextScaled = true
+    LoadButton.MouseButton1Click:Connect(function()
+        config.Callback()
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Credits:",
+            Text = table.concat(config.gCredits, ", "),
+            Duration = 15
+        })
+    end)
+
+    if not TabGames[gTab] then TabGames[gTab] = {} end
+    TabGames[gTab][#TabGames[gTab] + 1] = {Frame = GameBox}
+    adjustScroll()
+end
+
+return MitnicKHub
