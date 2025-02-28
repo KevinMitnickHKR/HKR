@@ -10,3 +10,11 @@ gAdd("Free", {
     end,
     gCredits = {"KevinMitnickHKR"}
 })
+
+gAdd("Free", {
+    gPlaceId = 116495829188952,
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/KevinMitnickHKR/HKR/refs/heads/main/Roblox%20Scripts/Free/Dead%20Rails"))()
+    end,
+    gCredits = {"KevinMitnickHKR"}
+})
