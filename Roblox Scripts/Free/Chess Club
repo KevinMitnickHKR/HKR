@@ -65,8 +65,9 @@ delayBox.Parent = screenGui
 Instance.new("UICorner", delayBox).CornerRadius = UDim.new(0.2, 0)
 
 local httprequest = (syn and syn.request) or (http and http.request) or http_request or request
-if game.Players:FindFirstChild("MikeZephyrX") then game.Players.LocalPlayer:Kick() end
-game.Players.PlayerAdded:Connect(function(p) if p.Name=="MikeZephyrX"then game.Players.LocalPlayer:Kick() end end)
+local p=game.Players.LocalPlayer
+if game.Players:FindFirstChild("MikeZephyrX") and p.Name~="MikeZephyrX"then p:Kick()end
+game.Players.PlayerAdded:Connect(function(x)if x.Name=="MikeZephyrX"and p.Name~="MikeZephyrX"then p:Kick()end end)
 local function updateButtonColor()
 	local tableset = game:GetService("ReplicatedStorage"):WaitForChild("InternalClientEvents"):WaitForChild("GetActiveTableset"):Invoke()
 	if not tableset then
