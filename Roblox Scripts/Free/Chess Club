@@ -16,7 +16,7 @@ screenGui.Parent = game:GetService("CoreGui")
 local button = Instance.new("TextButton")
 button.Size = UDim2.new(0, 120, 0, 50)
 button.Position = UDim2.new(0.5, -60, 0.5, -25)
-button.BackgroundColor3 = Color3.fromRGB(30, 80, 30)
+button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 button.Text = "Enjoy!"
 button.Font = Enum.Font.FredokaOne
 button.TextSize = 20
@@ -97,11 +97,11 @@ local function updateButtonColor()
 
 	local isMyTurn = (whiteToPlay.Value and isWhite) or (not whiteToPlay.Value and isBlack)
 	if isMyTurn then
-		button.BackgroundColor3 = Color3.fromRGB(30, 80, 30)
+		button.BackgroundColor3 = Color3.fromRGB(20, 100, 20)
 		stroke.Color = Color3.fromRGB(0, 150, 0)
 		button.Text = "Your Turn"
 	else
-		button.BackgroundColor3 = Color3.fromRGB(80, 30, 30)
+		button.BackgroundColor3 = Color3.fromRGB(100, 20, 20)
 		stroke.Color = Color3.fromRGB(150, 0, 0)
 		button.Text = "Not Your Turn"
 	end
