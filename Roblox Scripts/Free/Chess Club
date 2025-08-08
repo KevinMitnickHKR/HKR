@@ -138,7 +138,7 @@ end
 
 button.MouseButton1Click:Connect(playBestMove)
 game:GetService("UserInputService").InputBegan:Connect(function(input)
-	if (uis:GetFocusedTextBox()) then
+	if (game:GetService("UserInputService"):GetFocusedTextBox()) then
 		return;
 	end
 	if input.KeyCode == Enum.KeyCode.F then
