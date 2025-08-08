@@ -1,18 +1,18 @@
 --[[ Settings ]]--
-local sVariants = 1
-local sDepth = 18
-local sSmartness = 3000
+local sVariants = getgenv().sVariants
+local sDepth = getgenv().sDepth
+local sSmartness = getgenv().sSmartness
 --[[ Main Script ]]--
 -- | By KevinMitnickHKR UI And Functionality | --
 local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "ChessAPI_Button"
+screenGui.Name = "Chess API Not Mine"
 screenGui.Parent = game:GetService("CoreGui")
 
 local button = Instance.new("TextButton")
 button.Size = UDim2.new(0, 120, 0, 50)
 button.Position = UDim2.new(0.5, -60, 0.5, -25)
 button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-button.Text = "Play Move"
+button.Text = "Enjoy!"
 button.Font = Enum.Font.FredokaOne
 button.TextSize = 20
 button.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -36,7 +36,7 @@ local function updateButtonColor()
 	if not tableset then
 		button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 		stroke.Color = Color3.fromRGB(30, 30, 30)
-		button.Text = "Play Move"
+		button.Text = "Not Ingame"
 		return false
 	end
 
@@ -46,7 +46,7 @@ local function updateButtonColor()
 	if not whitePlayer or not blackPlayer or not whiteToPlay then
 		button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 		stroke.Color = Color3.fromRGB(30, 30, 30)
-		button.Text = "Auto Move!"
+		button.Text = "Not Ingame"
 		return false
 	end
 
@@ -56,7 +56,7 @@ local function updateButtonColor()
 	if not isWhite and not isBlack then
 		button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 		stroke.Color = Color3.fromRGB(30, 30, 30)
-		button.Text = "Auto Move!"
+		button.Text = "Not Ingame"
 		return false
 	end
 
@@ -102,7 +102,7 @@ local function playBestMove()
 end
 
 button.MouseButton1Click:Connect(playBestMove)
-
+task.wait(2)
 task.spawn(function()
 	while true do
 		updateButtonColor()
