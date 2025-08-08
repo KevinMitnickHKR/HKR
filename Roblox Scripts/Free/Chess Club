@@ -1,0 +1,111 @@
+--[[ Settings ]]--
+local sVariants = 1
+local sDepth = 18
+local sSmartness = 3000
+--[[ Main Script ]]--
+-- | By KevinMitnickHKR UI And Functionality | --
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "ChessAPI_Button"
+screenGui.Parent = game:GetService("CoreGui")
+
+local button = Instance.new("TextButton")
+button.Size = UDim2.new(0, 120, 0, 50)
+button.Position = UDim2.new(0.5, -60, 0.5, -25)
+button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+button.Text = "Play Move"
+button.Font = Enum.Font.FredokaOne
+button.TextSize = 20
+button.TextColor3 = Color3.fromRGB(255, 255, 255)
+button.AutoButtonColor = true
+button.Draggable = true
+button.Active = true
+button.Parent = screenGui
+
+Instance.new("UICorner", button).CornerRadius = UDim.new(0.2, 0)
+
+local stroke = Instance.new("UIStroke")
+stroke.Thickness = 5
+stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+stroke.Parent = button
+
+local httprequest = (syn and syn.request) or (http and http.request) or http_request or request
+_G.Smartness = 3000
+
+local function updateButtonColor()
+	local tableset = game:GetService("ReplicatedStorage"):WaitForChild("InternalClientEvents"):WaitForChild("GetActiveTableset"):Invoke()
+	if not tableset then
+		button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+		stroke.Color = Color3.fromRGB(30, 30, 30)
+		button.Text = "Play Move"
+		return false
+	end
+
+	local whitePlayer = tableset:FindFirstChild("WhitePlayer")
+	local blackPlayer = tableset:FindFirstChild("BlackPlayer")
+	local whiteToPlay = tableset:FindFirstChild("WhiteToPlay")
+	if not whitePlayer or not blackPlayer or not whiteToPlay then
+		button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+		stroke.Color = Color3.fromRGB(30, 30, 30)
+		button.Text = "Auto Move!"
+		return false
+	end
+
+	local myName = game:GetService("Players").LocalPlayer.Name
+	local isWhite = whitePlayer.Value == myName
+	local isBlack = blackPlayer.Value == myName
+	if not isWhite and not isBlack then
+		button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+		stroke.Color = Color3.fromRGB(30, 30, 30)
+		button.Text = "Auto Move!"
+		return false
+	end
+
+	local isMyTurn = (whiteToPlay.Value and isWhite) or (not whiteToPlay.Value and isBlack)
+	if isMyTurn then
+		button.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+		stroke.Color = Color3.fromRGB(0, 150, 0)
+		button.Text = "Your Turn"
+	else
+		button.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+		stroke.Color = Color3.fromRGB(150, 0, 0)
+		button.Text = "Not Your Turn"
+	end
+	return isMyTurn
+end
+
+local function playBestMove()
+	if not updateButtonColor() then return end
+	local tableset = game:GetService("ReplicatedStorage"):WaitForChild("InternalClientEvents"):WaitForChild("GetActiveTableset"):Invoke()
+	local fen = tableset:WaitForChild("FEN").Value
+	local body = game:GetService("HttpService"):JSONEncode({
+		fen = fen,
+		variants = sVariants,
+		depth = sDepth,
+		maxThinkingTime = sSmartness
+	})
+	local success, response = pcall(function()
+		return httprequest({
+			Url = "https://chess-api.com/v1",
+			Method = "POST",
+			Headers = {["Content-Type"] = "application/json"},
+			Body = body
+		})
+	end)
+	if not success or not response or not response.Success then return end
+	local result
+	pcall(function()
+		result = game:GetService("HttpService"):JSONDecode(response.Body)
+	end)
+	if result and result.lan then
+		game:GetService("ReplicatedStorage"):WaitForChild("Chess"):WaitForChild("SubmitMove"):InvokeServer(result.lan)
+	end
+end
+
+button.MouseButton1Click:Connect(playBestMove)
+
+task.spawn(function()
+	while true do
+		updateButtonColor()
+		task.wait()
+	end
+end)
