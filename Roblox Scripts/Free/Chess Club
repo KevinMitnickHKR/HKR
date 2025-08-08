@@ -137,6 +137,10 @@ local function playBestMove()
 end
 
 button.MouseButton1Click:Connect(playBestMove)
+game:GetService("UserInputService").InputBegan:Connect(function(input, gpe)
+	if gpe then return end
+	if input.KeyCode == Enum.KeyCode.K then playBestMove() end
+end)
 
 local autoEnabled = false
 
