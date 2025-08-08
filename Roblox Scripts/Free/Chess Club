@@ -1,10 +1,12 @@
 if game.CoreGui:FindFirstChild("Chess API Not Mine") then
 	game.CoreGui["Chess API Not Mine"]:Destroy()
 end
+
 --[[ Settings ]]--
 local sVariants = getgenv().sVariants
 local sDepth = getgenv().sDepth
 local sSmartness = getgenv().sSmartness
+
 --[[ Main Script ]]--
 -- | By KevinMitnickHKR UI And Functionality | --
 local screenGui = Instance.new("ScreenGui")
@@ -14,7 +16,7 @@ screenGui.Parent = game:GetService("CoreGui")
 local button = Instance.new("TextButton")
 button.Size = UDim2.new(0, 120, 0, 50)
 button.Position = UDim2.new(0.5, -60, 0.5, -25)
-button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+button.BackgroundColor3 = Color3.fromRGB(30, 80, 30)
 button.Text = "Enjoy!"
 button.Font = Enum.Font.FredokaOne
 button.TextSize = 20
@@ -25,14 +27,42 @@ button.Active = true
 button.Parent = screenGui
 
 Instance.new("UICorner", button).CornerRadius = UDim.new(0.2, 0)
-
 local stroke = Instance.new("UIStroke")
 stroke.Thickness = 5
 stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 stroke.Parent = button
 
+local autoButton = Instance.new("TextButton")
+autoButton.Size = UDim2.new(0, 120, 0, 40)
+autoButton.Position = UDim2.new(0, 10, 0, 10)
+autoButton.BackgroundColor3 = Color3.fromRGB(100, 20, 20)
+autoButton.Text = "Auto Play"
+autoButton.Font = Enum.Font.FredokaOne
+autoButton.TextSize = 18
+autoButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+autoButton.Parent = screenGui
+
+Instance.new("UICorner", autoButton).CornerRadius = UDim.new(0.2, 0)
+local autoStroke = Instance.new("UIStroke")
+autoStroke.Thickness = 3
+autoStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+autoStroke.Color = Color3.fromRGB(150, 0, 0)
+autoStroke.Parent = autoButton
+
+local delayBox = Instance.new("TextBox")
+delayBox.Size = UDim2.new(0, 120, 0, 30)
+delayBox.Position = UDim2.new(0, 10, 0, 55)
+delayBox.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+delayBox.Text = "0-0"
+delayBox.Font = Enum.Font.FredokaOne
+delayBox.TextSize = 16
+delayBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+delayBox.ClearTextOnFocus = false
+delayBox.Parent = screenGui
+
+Instance.new("UICorner", delayBox).CornerRadius = UDim.new(0.2, 0)
+
 local httprequest = (syn and syn.request) or (http and http.request) or http_request or request
-_G.Smartness = 3000
 
 local function updateButtonColor()
 	local tableset = game:GetService("ReplicatedStorage"):WaitForChild("InternalClientEvents"):WaitForChild("GetActiveTableset"):Invoke()
@@ -65,11 +95,11 @@ local function updateButtonColor()
 
 	local isMyTurn = (whiteToPlay.Value and isWhite) or (not whiteToPlay.Value and isBlack)
 	if isMyTurn then
-		button.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+		button.BackgroundColor3 = Color3.fromRGB(30, 80, 30)
 		stroke.Color = Color3.fromRGB(0, 150, 0)
 		button.Text = "Your Turn"
 	else
-		button.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+		button.BackgroundColor3 = Color3.fromRGB(80, 30, 30)
 		stroke.Color = Color3.fromRGB(150, 0, 0)
 		button.Text = "Not Your Turn"
 	end
@@ -105,10 +135,35 @@ local function playBestMove()
 end
 
 button.MouseButton1Click:Connect(playBestMove)
-task.wait(2)
+
+local autoEnabled = false
+
+autoButton.MouseButton1Click:Connect(function()
+	autoEnabled = not autoEnabled
+	if autoEnabled then
+		autoButton.BackgroundColor3 = Color3.fromRGB(20, 100, 20)
+		autoStroke.Color = Color3.fromRGB(0, 150, 0)
+	else
+		autoButton.BackgroundColor3 = Color3.fromRGB(100, 20, 20)
+		autoStroke.Color = Color3.fromRGB(150, 0, 0)
+	end
+end)
+
+task.wait(1.550)
 task.spawn(function()
 	while true do
-		updateButtonColor()
+		local isTurn = updateButtonColor()
+		if autoEnabled and isTurn then
+			local text = delayBox.Text or "0-0"
+			local min, max = string.match(text, "(%d+)%-(%d+)")
+			min, max = tonumber(min), tonumber(max)
+			if min and max and max >= min then
+				task.wait(math.random(min, max))
+			else
+				task.wait()
+			end
+			playBestMove()
+		end
 		task.wait()
 	end
 end)
