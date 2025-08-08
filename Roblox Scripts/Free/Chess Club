@@ -1,4 +1,6 @@
-if game.CoreGui:FindFirstChild("ChessAPI_Button") then game.CoreGui["Chess API Not Mine"]:Destroy() end
+if game.CoreGui:FindFirstChild("Chess API Not Mine") then
+	game.CoreGui["Chess API Not Mine"]:Destroy()
+end
 --[[ Settings ]]--
 local sVariants = getgenv().sVariants
 local sDepth = getgenv().sDepth
