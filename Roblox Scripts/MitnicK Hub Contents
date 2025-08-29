@@ -5,6 +5,6 @@ AddGame({
     Subtitle = "Version: 1.1",
     Credit = {"KevinMitnickHKR"},
     Callback = function()
-        print("Loading Game 1")
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/KevinMitnickHKR/HKR/refs/heads/main/Roblox%20Scripts/Free/Chess%20Club"))()
     end
 })
