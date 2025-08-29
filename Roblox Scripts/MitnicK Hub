@@ -1,7 +1,6 @@
-loadstring(game:HttpGet('https://raw.githubusercontent.com/KevinMitnickHKR/HKR/refs/heads/main/Roblox%20Scripts/MitnicK%20Hub%20Contents'))()
 --[[
-Version: 1.0
+Version: 1.1
 Official Creator: KevinMitnickHKR
-Official Creator Of DarkLibrary: DarkMoonHub
-You Can Just Copy This And Execute In The Executor No Need To Remove This.
+Official Creator Of UI: DarkMoonHub
 ]]--
+loadstring(game:HttpGet('https://raw.githubusercontent.com/KevinMitnickHKR/HKR/refs/heads/main/Roblox%20Scripts/MitnicK%20Hub%20Contents'))()
