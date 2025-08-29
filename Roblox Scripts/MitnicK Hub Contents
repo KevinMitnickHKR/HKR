@@ -1,3 +1,5 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/KevinMitnickHKR/HKR/refs/heads/main/Roblox%20Scripts/MitnicK%20Hub%20Source"))()
+
 AddGame({
     Place = 139394516128799,
     Subtitle = "Version: 1.1",
