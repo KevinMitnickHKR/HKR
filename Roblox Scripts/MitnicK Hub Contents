@@ -1,20 +1,8 @@
-local MitnicKHubSource = loadstring(game:HttpGet("https://raw.githubusercontent.com/KevinMitnickHKR/HKR/refs/heads/main/Roblox%20Scripts/MitnicK%20Hub%20Source"))()
-
-local MitnicKHub = MitnicKHubSource.MitnicKHub
-local gAdd = MitnicKHubSource.gAdd
-
-gAdd("Free", {
-    gPlaceId = 11157166793,
+AddGame({
+    Place = 139394516128799,
+    Subtitle = "Version: 1.1",
+    Credit = {"KevinMitnickHKR"},
     Callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/KevinMitnickHKR/HKR/refs/heads/main/Roblox%20Scripts/Free/Ant%20War"))()
-    end,
-    gCredits = {"KevinMitnickHKR"}
-})
-
-gAdd("Free", {
-    gPlaceId = 116495829188952,
-    Callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/KevinMitnickHKR/HKR/refs/heads/main/Roblox%20Scripts/Free/Dead%20Rails"))()
-    end,
-    gCredits = {"KevinMitnickHKR"}
+        print("Loading Game 1")
+    end
 })
