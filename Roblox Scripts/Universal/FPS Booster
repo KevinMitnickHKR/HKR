@@ -1,4 +1,4 @@
-local Settings = {
+getgenv().Settings = {
     ReducedEffects = true,
     RemovedEffects = true,
     LowDetail = true,
