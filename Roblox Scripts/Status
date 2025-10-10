@@ -1,3 +1,8 @@
-return {
-    {7266261686, true}
-}
+[
+    {
+        "GameName": "",
+        "GameType": 1,
+        "GameID": 7266261686,
+        "Status": 1
+    }
+]
