@@ -1,9 +1,12 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/KevinMitnickHKR/HKR/refs/heads/main/Roblox%20Scripts/MitnicK%20Hub%20Source"))()
 
-AddGame({
-    Place = 139394516128799,
-    Subtitle = "Version: 1.1",
-    Credit = {"KevinMitnickHKR"},
+local Window = MakeWindow()
+AddGame(Window.ScrollFrame, {
+    GameType = 1,
+    GameID = 7266261686,
+    Name = "",
+    Status = 1,
+    Credentials = {},
     Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/KevinMitnickHKR/HKR/refs/heads/main/Roblox%20Scripts/Free/Chess%20Club"))()
     end
