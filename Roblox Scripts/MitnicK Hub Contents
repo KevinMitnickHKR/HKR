@@ -11,3 +11,15 @@ AddGame(Window.ScrollFrame, {
         loadstring(game:HttpGet("https://raw.githubusercontent.com/KevinMitnickHKR/HKR/refs/heads/main/Roblox%20Scripts/Free/Chess%20Club"))()
     end
 })
+
+AddGame(Window.ScrollFrame, {
+    GameType = 3,
+    GameID = 6331902150,
+    Name = "",
+    Status = 2,
+    Credentials = {},
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/KevinMitnickHKR/HKR/refs/heads/main/Roblox%20Scripts/Free/Forsaken"))()
+    end
+})
+
