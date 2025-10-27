@@ -13,6 +13,17 @@ AddGame(Window.ScrollFrame, {
 })
 
 AddGame(Window.ScrollFrame, {
+    GameType = 1,
+    GameID = 4931927012,
+    Name = "",
+    Status = 1,
+    Credentials = {"KevinMitnickHKR"},
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/KevinMitnickHKR/HKR/refs/heads/main/Roblox%20Scripts/Free/Basketball%20Legends"))()
+    end
+})
+
+AddGame(Window.ScrollFrame, {
     GameType = 3,
     GameID = 6331902150,
     Name = "",
