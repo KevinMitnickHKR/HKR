@@ -6,7 +6,7 @@ AddGame(Window.ScrollFrame, {
     GameID = 7266261686,
     Name = "",
     Status = 1,
-    Credentials = {},
+    Credentials = {"KevinMitnickHKR"},
     Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/KevinMitnickHKR/HKR/refs/heads/main/Roblox%20Scripts/Free/Chess%20Club"))()
     end
@@ -20,6 +20,17 @@ AddGame(Window.ScrollFrame, {
     Credentials = {"KevinMitnickHKR"},
     Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/KevinMitnickHKR/HKR/refs/heads/main/Roblox%20Scripts/Free/Basketball%20Legends"))()
+    end
+})
+
+AddGame(Window.ScrollFrame, {
+    GameType = 1,
+    GameID = 3989869156,
+    Name = "",
+    Status = 1,
+    Credentials = {"KevinMitnickHKR"},
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/KevinMitnickHKR/HKR/refs/heads/main/Roblox%20Scripts/Free/Ant%20War"))()
     end
 })
 
